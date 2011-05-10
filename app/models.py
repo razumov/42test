@@ -9,3 +9,8 @@ class Person(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Request(models.Model):
+    date = models.DateTimeField(auto_now=True)
+    request = models.TextField()
