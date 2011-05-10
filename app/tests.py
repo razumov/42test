@@ -15,3 +15,8 @@ class SimpleTest(TestCase):
         self.assertContains(response, p.surname, 1)
         self.assertContains(response, p.bio, 1)
         self.assertContains(response, p.contacts, 1)
+
+        # A response
+        response = self.client.get('/requests/')
+        # Check response status
+        self.failUnlessEqual(response.status_code, 200)
