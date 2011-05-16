@@ -9,7 +9,7 @@ def person_views(request):
 
 def request_view(request):
     try:
-        requests = Request.objects.all()[:10]
+        requests = Request.objects.order_by('-date')[:10]
     except:
         requests = None
     return render_to_response('requests.html', {'requests': requests})

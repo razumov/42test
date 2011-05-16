@@ -1,4 +1,5 @@
 from django.db import models
+from picklefield.fields import PickledObjectField
 
 
 class Person(models.Model):
@@ -13,4 +14,4 @@ class Person(models.Model):
 
 class Request(models.Model):
     date = models.DateTimeField(auto_now=True)
-    request = models.TextField()
+    request = PickledObjectField()
