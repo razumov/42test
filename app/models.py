@@ -15,4 +15,3 @@ class Person(models.Model):
 class Request(models.Model):
     date = models.DateTimeField(auto_now=True)
     request = PickledObjectField()
-
