@@ -1,5 +1,6 @@
 from django.test import TestCase
 from models import Person
+from models import Request
 
 
 class SimpleTest(TestCase):
@@ -20,3 +21,9 @@ class SimpleTest(TestCase):
         response = self.client.get('/requests/')
         # Check response status
         self.failUnlessEqual(response.status_code, 200)
+        # Check template
+        self.assertTemplateUsed(response, 'requests.html', msg_prefix='')
+        # Check requests
+        requests = Request.objects.order_by('-date')[:10]
+        for request in response.context['requests']:
+            self.assertTrue(request in requests)
