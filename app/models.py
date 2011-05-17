@@ -14,8 +14,5 @@ class Person(models.Model):
 
 class Request(models.Model):
     date = models.DateTimeField(auto_now=True)
-<<<<<<< HEAD
-    request = models.TextField()
-=======
     request = PickledObjectField()
->>>>>>> t3_middleware
+
