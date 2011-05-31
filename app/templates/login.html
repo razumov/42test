@@ -1,0 +1,23 @@
+{% include "header.html" %}
+{% block "content" %}
+	{% include "menu.html" %}
+	{% if form.errors %}
+		<div class='error'>Логин или пароль введен неверно!</div>
+	{% endif %}
+	<form method="post" action="{% url django.contrib.auth.views.login %}">
+	{% csrf_token %}
+		<table>
+			<tr>
+				<td>Логин:</td>
+				<td>{{ form.username }}</td>
+			</tr>
+			<tr>
+				<td>Пароль:</td>
+				<td>{{ form.password }}</td>
+			</tr>
+		</table>
+		<input type="submit" value="Войти" />
+		<input type="hidden" name="next" value="{{ next }}" />
+	</form>
+
+{% endblock %}

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from models import Person
 from models import Request
@@ -32,3 +33,14 @@ class SimpleTest(TestCase):
         # Check context-processor
         response = self.client.get('/')
         self.assertTrue('app.context_processors.return_settings' in response.content)
+        
+        # Check 'edit'
+        response = self.client.get('/edit/')
+        # Check response status before auth
+        self.failUnlessEqual(response.status_code, 302)
+        #Authorization
+        User.objects.create_user(username="test",
+                                 email="test@test.com",
+                                 password="test")
+        self.failUnlessEqual(self.client.login(username="test",
+                                               password="test"), True)

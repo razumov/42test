@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+<title>Contacts</title>
+</head>
+<body>
+<table id="heading">
+	<tr>
+		<td valign=top>
+		<div class="titul">42 Coffee Cups Test Assignment {% if settings.DEBUG %}(Debug){% endif %}</div>
+		</td>
+		<td valign=top width="200" align="right">
+			{% if user.is_authenticated %}
+				Вы вошли как:  {{ user.username }} <br/>
+				<a href="{% url logout %}">Выйти</a>
+			{% endif %}
+			<br>
+		</td>
+	</tr>
+</table>
+<div class="line"></div>

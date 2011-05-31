@@ -1,0 +1,23 @@
+.titul {
+		padding-top: 0.5em;
+        font-size: 16pt;
+        font-weight: bold;
+        color: green;
+}
+
+div.line {
+   height: 0px;
+   width: 100%;
+   border-bottom: 1px solid black;
+   margin-top: 5pt;
+   margin-bottom: 10pt;
+}
+
+.error {
+	color: red;
+	font-weight: normal;
+}
+
+table#heading {
+	width: 100%
+}
