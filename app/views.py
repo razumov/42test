@@ -29,14 +29,9 @@ def request_view(request):
 def edit_view(request):
     c = tools.get_default_context(request, 'm_edit')
     if request.method == 'POST': 
-        form = PersonForm(request.POST) 
-        if form.is_valid(): 
-            p = Person.objects.all()[0]
-            p.name = form.cleaned_data['name']
-            p.surname = form.cleaned_data['surname']
-            p.bio = form.cleaned_data['bio']
-            p.contacts = form.cleaned_data['contacts']
-            p.save()
+        form = PersonForm(request.POST, instance=Person.objects.all()[0])
+        if form.is_valid():
+            form.save()
             return HttpResponseRedirect('/')
     else:
         p = Person.objects.all()[0]

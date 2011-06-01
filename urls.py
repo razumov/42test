@@ -9,7 +9,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'test42.views.home', name='home'),
      url(r'^', include('app.urls')),
-         
+     
      (r'^css/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': os.path.join(os.path.dirname(__file__),
                                        "app/templates/css").replace('\\', '/')}),
