@@ -7,6 +7,7 @@ class Person(models.Model):
     surname = models.CharField(max_length=15)
     bio = models.TextField()
     contacts = models.CharField(max_length=15)
+    birth_date = models.DateField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name
