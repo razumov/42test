@@ -32,6 +32,8 @@ def edit_view(request):
         form = PersonForm(request.POST, instance=Person.objects.all()[0])
         if form.is_valid():
             form.save()
+            if request.is_ajax():
+                return HttpResponse("Saved!")
             return HttpResponseRedirect('/')
     else:
         p = Person.objects.all()[0]

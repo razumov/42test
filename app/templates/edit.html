@@ -4,6 +4,8 @@
 	<form id="myForm" action="/edit/" method="post">
 		{% csrf_token %}
 		<table>{{ form.as_table }}</table>
+		<div id="loading" style="display:none">Loading...</div>
+		<div id="output"></div>
 		<input id="id_button" type="submit" value="Сохранить" />
 	</form>
 {% endblock %}

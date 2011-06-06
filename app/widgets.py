@@ -11,5 +11,5 @@ class Calendar(forms.DateInput):
         js = (
             '/js/jquery-1.5.1.min.js',
             "/js/jquery-ui-1.8.13.custom.min.js",
-            "/js/scripts.js"         
+            "/js/scripts.js"                  
         )
