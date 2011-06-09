@@ -90,4 +90,16 @@ class SimpleTest(TestCase):
             # A response
             response = self.client.get('/tag/')
             # Check response status after auth
+            self.failUnlessEqual(response.status_code, 200)               
+            # Authorization
+            User.objects.create_user(username="test",
+                                     email="test@test.com",
+                                     password="test")
+            self.failUnlessEqual(self.client.login(username="test",
+                                                   password="test"), True)
+            # A response
+            response = self.client.get('/tag/')
+            # Check response status after auth
             self.failUnlessEqual(response.status_code, 200)
+            # Check link
+            self.assertTrue("Edit object" in response.content)
