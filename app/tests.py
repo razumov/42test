@@ -72,34 +72,34 @@ class SimpleTest(TestCase):
         for item in data:
             self.failUnlessEqual(item in response.content, True)
             
-        def test_reversed(self):
-            #Authorization
-            User.objects.create_user(username="test",
-                                     email="test@test.com",
-                                     password="test")
-            self.failUnlessEqual(self.client.login(username="test",
-                                                   password="test"), True)
-            # A response
-            response = self.client.get('/edit/')
-            # Check response status after auth
-            self.failUnlessEqual(response.status_code, 200)
-            # Check if fields was reversed
-            self.failIf(response.content.index('id="id_name"') <
-                        response.content.index('id="id_bio"'))
-        def test_tag(self):
-            # A response
-            response = self.client.get('/tag/')
-            # Check response status after auth
-            self.failUnlessEqual(response.status_code, 200)               
-            # Authorization
-            User.objects.create_user(username="test",
-                                     email="test@test.com",
-                                     password="test")
-            self.failUnlessEqual(self.client.login(username="test",
-                                                   password="test"), True)
-            # A response
-            response = self.client.get('/tag/')
-            # Check response status after auth
-            self.failUnlessEqual(response.status_code, 200)
-            # Check link
-            self.assertTrue("Edit object" in response.content)
+    def test_reversed(self):
+        #Authorization
+        User.objects.create_user(username="test",
+                                 email="test@test.com",
+                                 password="test")
+        self.failUnlessEqual(self.client.login(username="test",
+                                               password="test"), True)
+        # A response
+        response = self.client.get('/edit/')
+        # Check response status after auth
+        self.failUnlessEqual(response.status_code, 200)
+        # Check if fields was reversed
+        self.failIf(response.content.index('id="id_name"') <
+                    response.content.index('id="id_bio"'))
+    def test_tag(self):
+        # A response
+        response = self.client.get('/tag/')
+        # Check response status after auth
+        self.failUnlessEqual(response.status_code, 200)               
+        # Authorization
+        User.objects.create_user(username="test",
+                                 email="test@test.com",
+                                  password="test")
+        self.failUnlessEqual(self.client.login(username="test",
+                                               password="test"), True)
+        # A response
+        response = self.client.get('/tag/')
+        # Check response status after auth
+        self.failUnlessEqual(response.status_code, 200)
+        # Check link
+        self.assertTrue("Edit object" in response.content)
