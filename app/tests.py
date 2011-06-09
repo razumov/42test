@@ -86,3 +86,8 @@ class SimpleTest(TestCase):
             # Check if fields was reversed
             self.failIf(response.content.index('id="id_name"') <
                         response.content.index('id="id_bio"'))
+        def test_tag(self):
+            # A response
+            response = self.client.get('/tag/')
+            # Check response status after auth
+            self.failUnlessEqual(response.status_code, 200)

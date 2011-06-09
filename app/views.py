@@ -47,3 +47,8 @@ def edit_view(request):
 def logout_view(request):
     logout(request)
     return person_views(request)
+
+def tag_view(request):
+    c = tools.get_default_context(request, 'm_tag')
+    return render_to_response('tag.html', c,
+                               context_instance=RequestContext(request))

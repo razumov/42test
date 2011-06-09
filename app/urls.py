@@ -10,6 +10,7 @@ urlpatterns = patterns('',
       url(r'^requests/$', views.request_view, name="requests"),
       url(r'^logout/$', views.logout_view, name="logout"),
       url(r'^edit/$', views.edit_view, name="edit"),
+      url(r'^tag/$', views.tag_view, name="tag"),
 
       (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
