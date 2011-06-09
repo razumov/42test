@@ -16,3 +16,9 @@ class Person(models.Model):
 class Request(models.Model):
     date = models.DateTimeField(auto_now=True)
     request = PickledObjectField()
+    
+    
+class LogModel(models.Model):
+    date = models.DateTimeField(auto_now=True)
+    model = models.CharField(max_length=40)
+    action = models.CharField(max_length=15)

@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
-from models import Person
+from django.core.management import call_command
+import sys
+from StringIO import StringIO
+from models import Person, LogModel
 from models import Request
 
 
@@ -86,6 +89,7 @@ class SimpleTest(TestCase):
         # Check if fields was reversed
         self.failIf(response.content.index('id="id_name"') <
                     response.content.index('id="id_bio"'))
+        
     def test_tag(self):
         # A response
         response = self.client.get('/tag/')
@@ -103,3 +107,31 @@ class SimpleTest(TestCase):
         self.failUnlessEqual(response.status_code, 200)
         # Check link
         self.assertTrue("Edit object" in response.content)
+
+    def test_modelsinfo(self):
+        temp = sys.stderr
+        sys.stderr = stderr = StringIO()
+        call_command('modelsinfo')
+        sys.stderr = temp
+        test_string = "<class 'django.contrib.auth.models.User'> " +\
+                      "contains 1 objects"
+        self.assertTrue(test_string in stderr.getvalue())
+
+    def test_signals(self):
+        # Testing "Changed" option
+        customer = Person.objects.all()[0]
+        customer.name = "Test"
+        customer.save()
+        log = LogModel.objects.order_by('date')[0]
+        self.assertTrue(log.action, "Changed")
+        # Testing "Created" option
+        customer = Person.objects.create()
+        customer.name = "Temp"
+        customer.save()
+        log = LogModel.objects.order_by('date')[0]
+        self.assertTrue(log.action, "Created")
+        # Testing "Deleted" option
+        customer = Person.objects.get(name='Temp')
+        customer.delete()
+        log = LogModel.objects.order_by('date')[0]
+        self.assertTrue(log.action, "Deleted")        
