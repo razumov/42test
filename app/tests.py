@@ -98,8 +98,7 @@ class SimpleTest(TestCase):
         # Authorization
         User.objects.create_user(username="test",
                                  email="test@test.com",
-                                 password="test")
-                                 password="test")
+                                 password="test")                              
         self.failUnlessEqual(self.client.login(username="test",
                                                password="test"), True)
         # A response
