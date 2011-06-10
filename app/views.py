@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from forms import PersonForm
+import receiver
 import tools
 
 
@@ -47,6 +48,7 @@ def edit_view(request):
 def logout_view(request):
     logout(request)
     return person_views(request)
+
 
 def tag_view(request):
     c = tools.get_default_context(request, 'm_tag')
