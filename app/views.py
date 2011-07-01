@@ -27,9 +27,9 @@ def request_view(request):
     c = tools.get_default_context(request, 'm_requests')
     if int(request.POST.get('priority', 0)):
         c['high'] = True
-        c['requests'] = Request.objects.order_by('-priority')[:10]
+        c['requests'] = Request.objects.order_by('-priority','-date')[:10]
     else:
-        c['requests'] = Request.objects.order_by('priority')[:10]
+        c['requests'] = Request.objects.order_by('priority','-date')[:10]
     return render_to_response('requests.html', c, \
                               context_instance=RequestContext(request))
     
