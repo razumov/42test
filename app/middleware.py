@@ -8,5 +8,7 @@ class RequestProcessor:
         data['Method'] = request.method
         data['Meta'] = str(request.META)
         req = Request(request=data)
+        if request.user.is_authenticated():
+            req.priority = 1
         req.save()
         return None

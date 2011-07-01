@@ -1,7 +1,40 @@
 {% extends "main.html" %}
 {% block "content" %}
 	{% include "menu.html" %}
-	    {% for request in requests %}
-		    {{ request.date }} <br/> {{ request.request }} <br/><br/><br/>
-	{% endfor %}
+	{% if error %}
+		<div class='error'>{{ error }}</div>
+	{% endif %}
+		<form action="" method="POST">
+			{% csrf_token %}
+			<table border="0">
+				<tr>
+					<td>Priority: </td>
+					<td>
+						<select name="priority" id="priority">
+							<option value="0">Low</option>
+							<option value="1" {% if high %}selected{% endif %}>High</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Choose">
+					</td>
+				</tr>
+			</table>
+		</form>
+		<br/>
+		<div class="hr"></div>
+	{% if requests %}
+		{% for request in requests %}
+            Date: {{ request.date }} <br/>
+            URI: {{ request.request.Path }} <br/>
+            Method: {{ request.request.Method }} <br />
+            Priority:<div id="{{ request.id }}">{{ request.priority }}</div>
+            <input type="button" value="Increment" onclick="incPriority({{ request.id }})"/>       
+            <br/><br/>
+        {% endfor %}
+	{% else %}
+		No requests found.
+	{% endif %}
 {% endblock %}

@@ -17,11 +17,19 @@ def person_views(request):
 
 
 def request_view(request):
+    if request.is_ajax():
+        id = request.POST.get("id", 0)
+        if id:
+            req = Request.objects.get(id=int(id))
+            req.priority += 1
+            req.save()
+            return HttpResponse(id + ";" + str(req.priority))
     c = tools.get_default_context(request, 'm_requests')
-    try:
-        c['requests'] = Request.objects.order_by('-date')[:10]
-    except:
-        pass
+    if int(request.POST.get('priority', 0)):
+        c['high'] = True
+        c['requests'] = Request.objects.order_by('-priority','-date')[:10]
+    else:
+        c['requests'] = Request.objects.order_by('priority','-date')[:10]
     return render_to_response('requests.html', c, \
                               context_instance=RequestContext(request))
     

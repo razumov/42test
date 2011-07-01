@@ -16,6 +16,7 @@ class Person(models.Model):
 class Request(models.Model):
     date = models.DateTimeField(auto_now=True)
     request = PickledObjectField()
+    priority = models.IntegerField(default=0)
     
     
 class LogModel(models.Model):
