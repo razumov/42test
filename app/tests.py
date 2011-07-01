@@ -134,5 +134,29 @@ class SimpleTest(TestCase):
         customer = Person.objects.get(name='Temp')
         customer.delete()
         log = LogModel.objects.order_by('date')[0]
-        self.assertTrue(log.action, "Deleted")  
-
+        self.assertTrue(log.action, "Deleted")
+        
+    def test_priority(self):
+        # Authorization
+        User.objects.create_user(username="test",
+                                 email="test@test.com",
+                                 password="test")
+        self.failUnlessEqual(self.client.login(username="test",
+                                               password="test"), True)
+        # Priority 1 request
+        self.client.get('/')
+        self.client.logout()
+        # Priority 0 request
+        self.client.get('/')
+        # Context
+        ctx = {'priority': '1'}
+        # Emulating form submitting
+        response = self.client.post('/requests/', ctx)
+        self.failIf(response.content.index('0</div>') <
+                    response.content.index('1</div>'))
+        # Context
+        ctx = {'priority': '0'}
+        # Emulating form submitting
+        response = self.client.post('/requests/', ctx)
+        self.failIf(response.content.index('0</div>') >
+                    response.content.index('1</div>'))
