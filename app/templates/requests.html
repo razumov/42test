@@ -27,12 +27,13 @@
 		<div class="hr"></div>
 	{% if requests %}
 		{% for request in requests %}
-				{{ request.date }} <br/>
-				Priority: <div id="{{ request.id }}">{{ request.priority }}</div>
-				<input type="button" value="Increment" onclick="incPriority({{ request.id }})"/><br/>
-				{{ request.request }}			
-				<br/><br/>
-		{% endfor %}
+            Date: {{ request.date }} <br/>
+            URI: {{ request.request.Path }} <br/>
+            Method: {{ request.request.Method }} <br />
+            Priority:<div id="{{ request.id }}">{{ request.priority }}</div>
+            <input type="button" value="Increment" onclick="incPriority({{ request.id }})"/>       
+            <br/><br/>
+        {% endfor %}
 	{% else %}
 		No requests found.
 	{% endif %}
