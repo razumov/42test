@@ -113,8 +113,7 @@ class SimpleTest(TestCase):
         sys.stderr = stderr = StringIO()
         call_command('modelsinfo')
         sys.stderr = temp
-        test_string = "<class 'django.contrib.auth.models.User'> " +\
-                      "contains 1 objects"
+        test_string = "<class 'app.models.Person'> contains 1 objects"
         self.assertTrue(test_string in stderr.getvalue())
 
     def test_signals(self):
