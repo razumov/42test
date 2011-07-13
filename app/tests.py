@@ -3,12 +3,21 @@ from django.test import TestCase
 from django.core.management import call_command
 import sys
 from StringIO import StringIO
-from models import Person, LogModel
-from models import Request
+from models import Person, LogModel, Request
 
 
 class SimpleTest(TestCase):
-
+    
+    def test_model(self):
+        quantity = Person.objects.count()
+        p = Person(name = "Name", surname = "Surname", bio = "Biography", contacts = "Contacts", birth_date = "1901-01-01")
+        p.save()
+        next_quantity = Person.objects.count()
+        self.assertTrue(next_quantity - quantity == 1)
+        p.delete()
+        next_quantity = Person.objects.count()
+        self.assertTrue(next_quantity == quantity)
+        
     def test_contacts(self):
         # A response
         response = self.client.get('/')
