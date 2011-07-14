@@ -3,15 +3,25 @@ from django.test import TestCase
 from django.core.management import call_command
 import sys
 from StringIO import StringIO
-from models import Person, LogModel
-from models import Request
+from models import Person, LogModel, Request
+from django.core.urlresolvers import reverse
 
 
 class SimpleTest(TestCase):
-
+    
+    def test_model(self):
+        quantity = Person.objects.count()
+        p = Person(name = "Name", surname = "Surname", bio = "Biography", contacts = "Contacts", birth_date = "1901-01-01")
+        p.save()
+        next_quantity = Person.objects.count()
+        self.assertTrue(next_quantity - quantity == 1)
+        p.delete()
+        next_quantity = Person.objects.count()
+        self.assertTrue(next_quantity == quantity)
+        
     def test_contacts(self):
         # A response
-        response = self.client.get('/')
+        response = self.client.get(reverse('person'))
         # Check response status
         self.failUnlessEqual(response.status_code, 200)
         # Check page information
@@ -23,7 +33,7 @@ class SimpleTest(TestCase):
         
     def test_requests(self):
         # A response
-        response = self.client.get('/requests/')
+        response = self.client.get(reverse('requests'))
         # Check response status
         self.failUnlessEqual(response.status_code, 200)
         # Check template
@@ -35,14 +45,14 @@ class SimpleTest(TestCase):
             
     def test_context_processor(self):
         # A response
-        response = self.client.get('/')
+        response = self.client.get(reverse('person'))
         # Check if context contains project settings
         self.failUnlessEqual(response.context['settings'].SECRET_KEY, \
             'q^x45_#81=5uxd9&9yp(i86v6zj7^=iyw6+0&%w!7d5t+15$a2')       
        
     def test_edit(self):        
         # Check 'edit'
-        response = self.client.get('/edit/')
+        response = self.client.get(reverse('edit'))
         # Check response status before auth
         self.failUnlessEqual(response.status_code, 302)
         #Authorization
@@ -53,7 +63,7 @@ class SimpleTest(TestCase):
                                                password="test"), True)
         
         # A response
-        response = self.client.get('/edit/')
+        response = self.client.get(reverse('edit'))
         # Check response status after auth
         self.failUnlessEqual(response.status_code, 200)
 
@@ -65,8 +75,8 @@ class SimpleTest(TestCase):
         ctx = {'name': 'test_1', 'surname': 'test_2', 'bio': 'test_3',
                'contacts': 'test_4'}
         # Form submitting
-        self.client.post('/edit/', ctx)
-        response = self.client.get('/edit/')
+        self.client.post(reverse('edit'), ctx)
+        response = self.client.get(reverse('edit'))
         # Check response status
         self.failUnlessEqual(response.status_code, 200)
         # Person data
@@ -83,7 +93,7 @@ class SimpleTest(TestCase):
         self.failUnlessEqual(self.client.login(username="test",
                                                password="test"), True)
         # A response
-        response = self.client.get('/edit/')
+        response = self.client.get(reverse('edit'))
         # Check response status after auth
         self.failUnlessEqual(response.status_code, 200)
         # Check if fields was reversed
@@ -92,7 +102,7 @@ class SimpleTest(TestCase):
 
     def test_tag(self):
         # A response
-        response = self.client.get('/tag/')
+        response = self.client.get(reverse('tag'))
         # Check response status after auth
         self.failUnlessEqual(response.status_code, 200)               
         # Authorization
@@ -102,7 +112,7 @@ class SimpleTest(TestCase):
         self.failUnlessEqual(self.client.login(username="test",
                                                password="test"), True)
         # A response
-        response = self.client.get('/tag/')
+        response = self.client.get(reverse('tag'))
         # Check response status after auth
         self.failUnlessEqual(response.status_code, 200)
         # Check link
@@ -113,8 +123,7 @@ class SimpleTest(TestCase):
         sys.stderr = stderr = StringIO()
         call_command('modelsinfo')
         sys.stderr = temp
-        test_string = "<class 'django.contrib.auth.models.User'> " +\
-                      "contains 1 objects"
+        test_string = "<class 'app.models.Person'> contains 1 objects"
         self.assertTrue(test_string in stderr.getvalue())
 
     def test_signals(self):
@@ -144,10 +153,10 @@ class SimpleTest(TestCase):
         self.failUnlessEqual(self.client.login(username="test",
                                                password="test"), True)
         # Priority 1 request
-        self.client.get('/')
+        self.client.get(reverse('person'))
         self.client.logout()
         # Priority 0 request
-        self.client.get('/')
+        self.client.get(reverse('person'))
         # Context
         ctx = {'priority': '1'}
         # Emulating form submitting
@@ -157,6 +166,6 @@ class SimpleTest(TestCase):
         # Context
         ctx = {'priority': '0'}
         # Emulating form submitting
-        response = self.client.post('/requests/', ctx)
+        response = self.client.post(reverse('requests'), ctx)
         self.failIf(response.content.index('0</div>') >
                     response.content.index('1</div>'))

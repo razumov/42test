@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 
 
 class Calendar(forms.DateInput):
@@ -6,10 +7,10 @@ class Calendar(forms.DateInput):
     class Media:
         css = {
             'all': (
-                "css/jquery-ui-1.8.13.custom.css",
+               'settings.MEDIA_URL + css/jquery-ui-1.8.13.custom.css',
             )}
         js = (
-            '/js/jquery-1.5.1.min.js',
-            "/js/jquery-ui-1.8.13.custom.min.js",
-            "/js/scripts.js"                  
+            'settings.MEDIA_URL + js/jquery-1.5.1.min.js',
+            'settings.MEDIA_URL + js/jquery-ui-1.8.13.custom.min.js',
+            'settings.MEDIA_URL + js/scripts.js',                  
         )
