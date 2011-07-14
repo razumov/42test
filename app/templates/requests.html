@@ -31,7 +31,7 @@
             URI: {{ request.request.Path }} <br/>
             Method: {{ request.request.Method }} <br />
             Priority:<div id="{{ request.id }}">{{ request.priority }}</div>
-            <input type="button" value="Increment" onclick="incPriority({{ request.id }})"/>       
+            <input type="button" value="Increment" onclick="incPriority({{ request.id }})"/>
             <br/><br/>
         {% endfor %}
 	{% else %}

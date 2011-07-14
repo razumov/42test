@@ -1,3 +1,4 @@
+from django.conf.urls.defaults import patterns, include
 from django.conf.urls.defaults import *
 import views
 # Uncomment the next two lines to enable the admin:
@@ -16,7 +17,9 @@ urlpatterns = patterns('',
 
       (r'^admin/', include(admin.site.urls)),
       (r'^accounts/login/$', 'django.contrib.auth.views.login',
-                                  {'template_name': 'login.html'}),
+                                  {'template_name': 'login.html'})
+                       
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
